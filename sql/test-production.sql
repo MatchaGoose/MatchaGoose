@@ -8,6 +8,25 @@ locate the sample query's identifier on the "test-production.out" file.
 
 -- Feature 1: Signup / login page
 -- Signup / login
+
+-- Compare index / no index
+Q05:
+    1)
+      -- Drop the index if it exists, so we can test without it
+      DROP INDEX IF EXISTS email_idx;
+    
+      -- Run EXPLAIN ANALYZE without the index
+      EXPLAIN ANALYZE
+        SELECT * FROM "User" WHERE email = 'lucas@gmail.com';
+
+    2)
+    -- Create index on email
+    CREATE INDEX IF NOT EXISTS email_idx ON "User"(email);
+    
+    -- Run EXPLAIN ANALYZE with the index
+    EXPLAIN ANALYZE
+        SELECT * FROM "User" WHERE email = 'lucas@gmail.com';
+
 Q1:
     -- Create a dense index on User(email)
     CREATE INDEX email_idx ON "User"(email);
