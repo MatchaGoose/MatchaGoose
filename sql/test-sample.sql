@@ -102,7 +102,7 @@ SET
     has_onboarded = TRUE
 WHERE id = '1df7d007-3918-43df-b050-8c99deec7b85';
 
--- Feature 3: Swiping page
+-- Feature 3: Swiping / Liking
 
 -- QUERY TEMPLATES (F3)
 -- Select $2 most similar users to user with id $1
@@ -111,6 +111,12 @@ FROM "Similarity"
 WHERE looking_user_id = $1
 ORDER BY similarity DESC
 LIMIT $2;
+-- User with id $1 likes user with id $2
+INSERT INTO "Likes" (
+    like_id, liker_id, likee_id, liked_at
+) VALUES (
+    gen_random_uuid(), $1, $2, NOW()
+);
 
 -- SAMPLE QUERIES (F3)
 Q8:
@@ -119,6 +125,13 @@ FROM "Similarity"
 WHERE looking_user_id = '1df7d007-3918-43df-b050-8c99deec7b85'
 ORDER BY similarity DESC
 LIMIT 2;
+
+Q9: 
+INSERT INTO "Likes" (
+    like_id, liker_id, likee_id, liked_at
+) VALUES (
+    gen_random_uuid(), '1df7d007-3918-43df-b050-8c99deec7b85', '2vr1d007-3918-43df-b050-8c14dfcc7b95', NOW()
+);
 
 -- Feature 4: Profile page
 
@@ -144,9 +157,9 @@ SET
 WHERE id = $1;
 
 -- SAMPLE QUERIES (F4)
-Q9: SELECT * FROM "User" WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
+Q10: SELECT * FROM "User" WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
-Q10:
+Q11:
 UPDATE "User"
 SET
     first_name = 'Bob',
@@ -164,50 +177,51 @@ SET
     has_onboarded = TRUE
 WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
--- Feature 5: Liking
+-- Feature 5: Update email / password
 
 -- QUERY TEMPLATES (F5)
--- User with id $1 likes user with id $2
-INSERT INTO "Likes" (
-    like_id, liker_id, likee_id, liked_at
-) VALUES (
-    gen_random_uuid(), $1, $2, NOW()
-);
+-- Query password for user with id $1
+Q12: 
+SELECT password 
+FROM "User"
+WHERE id = $1;
+-- Update password to $2 for user with id $1
+Q13:
+UPDATE "User"
+SET
+    password = $2
+WHERE id = $1;
+-- Query email for user with id $1
+Q14:
+SELECT email 
+FROM "User"
+WHERE id = $1;
+-- Update email to $2 for user with id $1
+Q15:
+UPDATE "User"
+SET 
+    email = $2
+WHERE id = $1;
 
 -- SAMPLE QUERIES (F5)
-Q11: INSERT INTO "Likes" (
-    like_id, liker_id, likee_id, liked_at
-) VALUES (
-    gen_random_uuid(), '1df7d007-3918-43df-b050-8c99deec7b85', '2vr1d007-3918-43df-b050-8c14dfcc7b95', NOW()
-);
+Q12:
+SELECT password 
+FROM "User"
+WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
--- Feature 6: Matching
+Q13:
+UPDATE "User"
+SET
+    password = "hashed-password-2"
+WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
--- QUERY TEMPLATES (F6)
--- Determine whether $1 and $2 have liked each other
-SELECT (
-    EXISTS (
-        SELECT * 
-        FROM "Likes"
-        WHERE liker_id = $1 AND likee_id = $2
-    ) AND EXISTS (
-        SELECT *
-        FROM "Likes"
-        WHERE liker_id = $2 AND likee_id = $1
-    )
-) AS is_match;
+Q14:
+SELECT email 
+FROM "User"
+WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
--- NOTE: The Matches table insertion occurs via trigger (found in C2.sql)
-
--- SAMPLE QUERIES (F6)
-Q12: SELECT (
-    EXISTS (
-        SELECT * 
-        FROM "Likes"
-        WHERE liker_id = '1df7d007-3918-43df-b050-8c99deec7b85' AND likee_id = '2vr1d007-3918-43df-b050-8c14dfcc7b95'
-    ) AND EXISTS (
-        SELECT *
-        FROM "Likes"
-        WHERE liker_id = '2vr1d007-3918-43df-b050-8c14dfcc7b95' AND likee_id = '1df7d007-3918-43df-b050-8c99deec7b85'
-    )
-) AS is_match;
+Q15:
+UPDATE "User"
+SET 
+    email = "bob2@bob.ca"
+WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
