@@ -4,6 +4,43 @@ Q2:
 | ------------------------------------ | --------------- | ------------------------------------------------------------ | ----------------------------- | ---------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------- | ----------- | --------------------------- | ----------------------------- | ------------- | --------------------------------- | ------------------------------- | ------------------------------------------------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------- |
 | 9f430f9d-c1cf-44ae-b6d5-7e7b3690cc82 | lucas@gmail.com | $2b$12$vxZ/nMSMyKaKfzKd0FmeX.CuTLINisxVOEeVUBfb9ZLssPdwYxZBy | 2025-07-21 19:38:22.005849+00 | Lucas      | Garwood   | I've worked at IBM for 20+ years. Now I just want to create a startup and guide some young people in the industry. Hit me up if you're interested! | https://xpssholimgirhamcnrpq.supabase.co//storage/v1/object/public/profile-images/profiles/4b7b842a-df2d-4477-babd-794b508babc4.jpg? | https://www.linkedin.com/in/wilson-chen-/ |             | https://github.com/zyrephus | 2025-07-21 15:38:21.787021+00 | true          | {Frontend,Backend,Infrastructure} | {AI/ML,"Data Science",Frontend} | {Education,E-commerce,Entertainment,"Transportation / Mobility","Real Estate"} | {React,Python,Ruby,Java,TypeScript,JavaScript,Tailwind,GCP,AWS} | {React,Java,Kotlin,Django,Docker,Kubernetes,AWS,PyTorch,TensorFlow} |
 
+Q3:
+  1)  | QUERY PLAN                                                                                                                                                              |
+      | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+      | Update on "User"  (cost=4.13..13.77 rows=0 width=0) (actual time=7.630..7.633 rows=0 loops=1)                                                                           |
+      |   ->  Hash Semi Join  (cost=4.13..13.77 rows=27 width=47) (actual time=0.120..0.170 rows=27 loops=1)                                                                    |
+      |         Hash Cond: ("User".id = "ANY_subquery".id)                                                                                                                      |
+      |         ->  Seq Scan on "User"  (cost=0.00..9.27 rows=27 width=22) (actual time=0.015..0.047 rows=27 loops=1)                                                           |
+      |         ->  Hash  (cost=3.79..3.79 rows=27 width=56) (actual time=0.091..0.093 rows=27 loops=1)                                                                         |
+      |               Buckets: 1024  Batches: 1  Memory Usage: 11kB                                                                                                             |
+      |               ->  Subquery Scan on "ANY_subquery"  (cost=3.45..3.79 rows=27 width=56) (actual time=0.070..0.081 rows=27 loops=1)                                        |
+      |                     ->  Limit  (cost=3.45..3.52 rows=27 width=24) (actual time=0.059..0.063 rows=27 loops=1)                                                            |
+      |                           ->  Sort  (cost=3.45..3.52 rows=27 width=24) (actual time=0.058..0.060 rows=27 loops=1)                                                       |
+      |                                 Sort Key: (random())                                                                                                                    |
+      |                                 Sort Method: quicksort  Memory: 26kB                                                                                                    |
+      |                                 ->  Index Only Scan using "User_pkey" on "User" "User_1"  (cost=0.14..2.81 rows=27 width=24) (actual time=0.025..0.029 rows=27 loops=1) |
+      |                                       Heap Fetches: 0                                                                                                                   |
+      | Planning Time: 0.746 ms                                                                                                                                                 |
+      | Execution Time: 8.498 ms                                                                                                                                                |
+
+  2)  | QUERY PLAN                                                                                                                                     |
+      | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+      | Update on "User"  (cost=10.65..20.30 rows=0 width=0) (actual time=3.519..3.522 rows=0 loops=1)                                                 |
+      |   ->  Hash Semi Join  (cost=10.65..20.30 rows=27 width=47) (actual time=0.165..0.198 rows=27 loops=1)                                          |
+      |         Hash Cond: ("User".id = "ANY_subquery".id)                                                                                             |
+      |         ->  Seq Scan on "User"  (cost=0.00..9.27 rows=27 width=22) (actual time=0.008..0.026 rows=27 loops=1)                                  |
+      |         ->  Hash  (cost=10.32..10.32 rows=27 width=56) (actual time=0.141..0.142 rows=27 loops=1)                                              |
+      |               Buckets: 1024  Batches: 1  Memory Usage: 11kB                                                                                    |
+      |               ->  Subquery Scan on "ANY_subquery"  (cost=9.98..10.32 rows=27 width=56) (actual time=0.118..0.129 rows=27 loops=1)              |
+      |                     ->  Limit  (cost=9.98..10.05 rows=27 width=24) (actual time=0.110..0.115 rows=27 loops=1)                                  |
+      |                           ->  Sort  (cost=9.98..10.05 rows=27 width=24) (actual time=0.109..0.111 rows=27 loops=1)                             |
+      |                                 Sort Key: (random())                                                                                           |
+      |                                 Sort Method: quicksort  Memory: 26kB                                                                           |
+      |                                 ->  Seq Scan on "User" "User_1"  (cost=0.00..9.34 rows=27 width=24) (actual time=0.026..0.076 rows=27 loops=1) |
+      | Planning Time: 0.925 ms                                                                                                                        |
+      | Execution Time: 3.653 ms 
+
+|
 Q4: Success. No rows returned
 Q5: Success. No rows returned
 Q6: Success. No rows returned
