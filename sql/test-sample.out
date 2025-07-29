@@ -15,16 +15,25 @@ Q8:
 | 3a7b3d58-4c4e-4f9a-8d1e-fc2b0fa2c1c1 | 0.90000    |
 | f91b677e-8f58-46e7-9cc6-d857cbd987b3 | 0.80000    |
 
-Q9:
+Q9: Success. No rows returned
+
+Q10:
 | id                                   | email                  | first_name | last_name | bio                            | has_onboarded  | user_domain | desired_domain       | user_sector     |
 | ------------------------------------ | ---------------------- | ---------- | --------- | ------------------------------ | -------------- | ------------|----------------------|-----------------|
 | 2ffc97ff-9cc3-4021-8edc-89a36bf6d783 | jimmy23@example.org    | Gary       | Sanders   | hello my name is Evan Dennison | true           | {}          | {Backend,DevOps}     | {}              |
 
-Q10: Success. No rows returned
-
 Q11: Success. No rows returned
 
-Q12: 
-| is_match  |
-| --------- |
-| TRUE      |
+Q12:
+| password               | 
+| ---------------------- | 
+| hashed-password        | 
+
+Q13: Success. No rows returned
+
+Q14:
+| email                  | 
+| ---------------------- | 
+| bob@bob.ca             | 
+
+Q15: Success. No rows returned
