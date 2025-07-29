@@ -1,3 +1,19 @@
+Q05:
+   1) | QUERY PLAN                                                                                       |
+      | ------------------------------------------------------------------------------------------------ |
+      | Seq Scan on "User"  (cost=0.00..9.35 rows=1 width=671) (actual time=0.043..0.043 rows=0 loops=1) |
+      |   Filter: (email = 'lucas@gmail.com'::text)                                                      |
+      |   Rows Removed by Filter: 28                                                                     |
+      | Planning Time: 0.485 ms                                                                          |
+      | Execution Time: 0.119 ms                                                                         |         
+
+    2)| QUERY PLAN                                                                                                         |
+      | ------------------------------------------------------------------------------------------------------------------ |
+      | Index Scan using email_idx on "User"  (cost=0.14..2.36 rows=1 width=671) (actual time=0.014..0.014 rows=1 loops=1) |
+      |   Index Cond: (email = 'lucas@gmail.com'::text)                                                                    |
+      | Planning Time: 0.544 ms                                                                                            |
+      | Execution Time: 0.090 ms        
+
 Q1: Success. No rows returned
 Q2:
 | id                                   | email           | password                                                     | created_at                    | first_name | last_name | bio                                                                                                                                                | image_url                                                                                                                            | linkedin_url                              | twitter_url | github_url                  | last_login                    | has_onboarded | user_domain                       | desired_domain                  | user_sector                                                                    | skills                                                          | desired_skills                                                      |
@@ -40,7 +56,6 @@ Q3:
       | Planning Time: 0.925 ms                                                                                                                        |
       | Execution Time: 3.653 ms 
 
-|
 Q4: Success. No rows returned
 Q5: Success. No rows returned
 Q6: Success. No rows returned
