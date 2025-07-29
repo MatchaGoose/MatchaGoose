@@ -45,6 +45,7 @@ Q3:
         
             
 Q4:
+CREATE INDEX idx_onboarding_user_id ON User(user_id)
 UPDATE "User"
 SET
     first_name = 'Bob',
@@ -79,11 +80,10 @@ WHERE id = '1df7d007-3918-43df-b050-8c99deec7b85';
 
 -- Feature 3: Swiping page
 Q8:
-SELECT offering_user_id, similarity
-FROM "Similarity"
-WHERE looking_user_id = '1df7d007-3918-43df-b050-8c99deec7b85'
-ORDER BY similarity DESC
-LIMIT 10;
+CREATE INDEX user_idx ON "recommendations"(recommended_user_ids);
+SELECT recommended_user_ids
+FROM "recommendations"
+WHERE user_id = 'b614d7cc-3d60-4789-a755-255a1d2b44b7';
 
 -- Feature 4: Profile page
 Q9: SELECT * FROM "User" WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';

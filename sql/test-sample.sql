@@ -105,12 +105,10 @@ WHERE id = '1df7d007-3918-43df-b050-8c99deec7b85';
 -- Feature 3: Swiping / Liking
 
 -- QUERY TEMPLATES (F3)
--- Select $2 most similar users to user with id $1
-SELECT id, email
-FROM "Similarity"
-WHERE looking_user_id = $1
-ORDER BY similarity DESC
-LIMIT $2;
+-- Select recommended users for user with id $1
+SELECT recommended_user_ids
+FROM "recommendations"
+WHERE user_id = $1;
 -- User with id $1 likes user with id $2
 INSERT INTO "Likes" (
     like_id, liker_id, likee_id, liked_at
@@ -120,11 +118,9 @@ INSERT INTO "Likes" (
 
 -- SAMPLE QUERIES (F3)
 Q8:
-SELECT offering_user_id, similarity
-FROM "Similarity"
-WHERE looking_user_id = '1df7d007-3918-43df-b050-8c99deec7b85'
-ORDER BY similarity DESC
-LIMIT 2;
+SELECT recommended_user_ids
+FROM "recommendations"
+WHERE user_id = 'a910c7cc-3c60-4789-a755-255a1d2b44b7';
 
 Q9: 
 INSERT INTO "Likes" (

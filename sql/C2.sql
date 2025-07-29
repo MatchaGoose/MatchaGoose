@@ -22,11 +22,9 @@ CREATE TABLE messages (
   sent_at timestamp NOT NULL
 );
 
-CREATE TABLE similarity (
-  similarity_id     uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-  looking_user_id    uuid NOT NULL REFERENCES "User"(id),
-  offering_user_id    uuid NOT NULL REFERENCES "User"(id),
-  similarity numeric(6,5) NOT NULL
+CREATE TABLE recommendations (
+  user_id               uuid        PRIMARY KEY NOT NULL REFERENCES "User"(id),
+  recommended_user_ids  uuid[]      NOT NULL DEFAULT ARRAY[]::uuid[]
 );
 
 -- Triggers
