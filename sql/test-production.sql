@@ -80,10 +80,18 @@ WHERE id = '1df7d007-3918-43df-b050-8c99deec7b85';
 
 -- Feature 3: Swiping page
 Q8:
-CREATE INDEX user_idx ON "recommendations"(recommended_user_ids);
-SELECT recommended_user_ids
-FROM "recommendations"
-WHERE user_id = 'b614d7cc-3d60-4789-a755-255a1d2b44b7';
+    1)  DROP INDEX IF EXISTS user_idx;
+        EXPLAIN ANALYZE
+        SELECT recommended_user_ids
+        FROM "recommendations"
+        WHERE user_id = 'b614d7cc-3d60-4789-a755-255a1d2b44b7';
+
+    
+    2)  CREATE INDEX user_idx ON "recommendations"(user_id);
+        EXPLAIN ANALYZE
+        SELECT recommended_user_ids
+        FROM "recommendations"
+        WHERE user_id = 'b614d7cc-3d60-4789-a755-255a1d2b44b7';
 
 -- Feature 4: Profile page
 Q9: SELECT * FROM "User" WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
@@ -105,15 +113,27 @@ SET
     has_onboarded = TRUE
 WHERE id = '2ffc97ff-9cc3-4021-8edc-89a36bf6d783';
 
--- Feature 5: Liking
-Q11: INSERT INTO "Likes" (
+-- Feature 5: Update email / password
+Q11:
+    1) EXPLAIN ANALYZE
+    SELECT password
+    FROM "User"
+    WHERE id = "b614d7cc-3d60-4789-a755-255a1d2b44b7";
+    2) CREATE INDEX idx_user_id_cover ON "User"(id) INCLUDE (password, email);
+    EXPLAIN ANALYZE
+    SELECT password
+    FROM "User"
+    WHERE id = "b614d7cc-3d60-4789-a755-255a1d2b44b7";
+
+-- Feature 6: Liking
+Q12: INSERT INTO "Likes" (
     like_id, liker_id, likee_id, liked_at
 ) VALUES (
     gen_random_uuid(), '1df7d007-3918-43df-b050-8c99deec7b85', '2vr1d007-3918-43df-b050-8c14dfcc7b95', NOW()
 );
 
--- Feature 6: Matching
-Q12: SELECT (
+-- Feature 7: Matching
+Q13: SELECT (
     EXISTS (
         SELECT * 
         FROM "Likes"
