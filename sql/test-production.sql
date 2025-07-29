@@ -20,6 +20,30 @@ Q2: INSERT INTO "User" (
 
 -- Feature 2: Onboarding pages
 -- Onboarding page 1
+Q3:
+    1) EXPLAIN ANALYZE
+        UPDATE public."User"
+          SET has_onboarded = true
+        WHERE id IN (
+          SELECT id
+            FROM public."User"
+            ORDER BY random()
+            LIMIT 1000
+        );
+    2) CREATE INDEX IF NOT EXISTS idx_onboarding_user_id
+          ON public."User"(id);
+
+       EXPLAIN ANALYZE
+        UPDATE public."User"
+          SET has_onboarded = true
+        WHERE id IN (
+          SELECT id
+            FROM public."User"
+            ORDER BY random()
+            LIMIT 1000
+        );
+        
+            
 Q4:
 UPDATE "User"
 SET
